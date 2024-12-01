@@ -328,8 +328,8 @@ public struct WebSocketCloseFrame: Sendable {
     /// Make mask key to be used in WebSocket frame
     private func makeMaskKey() -> WebSocketMaskingKey? {
         guard self.type == .client else { return nil }
-        let bytes: [UInt8] = (0...3).map { _ in UInt8.random(in: .min ... .max) }
-        return WebSocketMaskingKey(bytes)
+        var generator = SystemRandomNumberGenerator()
+        return WebSocketMaskingKey.random(using: &generator)
     }
 }
 
